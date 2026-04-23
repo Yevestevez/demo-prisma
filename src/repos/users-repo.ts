@@ -37,6 +37,7 @@ export class UsersRepo {
     login = async (
         userData: UserCreateWithoutProfileInput & UserCreateWithoutReviewsInput,
     ) => {
+        const loginError = new Error('Invalid Login');
         const result = await this.#prisma.user.findUnique({
             where: {
                 email: userData.email,
@@ -44,13 +45,13 @@ export class UsersRepo {
         });
 
         if (!result) {
-            throw new Error('User not found');
+            throw loginError;
         }
 
         const isValid = await compare(userData.password, result.password);
 
         if (!isValid) {
-            throw new Error('Invalid password');
+            throw loginError;
         }
 
         return {
