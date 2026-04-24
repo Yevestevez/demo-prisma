@@ -6,8 +6,8 @@ import type {
 import { env } from '../config/env.ts';
 import debug from 'debug';
 
-const log = debug(`${env.PROJECT_NAME}:repo:users`);
-log('Loading users repo...');
+const log = debug(`${env.PROJECT_NAME}:repo:films`);
+log('Loading films repo...');
 
 export class FilmsRepo {
     #prisma: PrismaClient;
