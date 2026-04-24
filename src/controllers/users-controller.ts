@@ -45,6 +45,7 @@ export class UsersController {
             const loggedUser = await this.#repo.login(userData);
 
             res.json(loggedUser);
+            //TODO -> Mejorar el manejo de errores
         } catch (error) {
             next(error);
 
@@ -60,6 +61,7 @@ export class UsersController {
             const user = await this.#repo.getUserById(id);
 
             res.json(user);
+            //TODO -> Mejorar el manejo de errores
         } catch (error) {
             next(error);
 
@@ -76,6 +78,7 @@ export class UsersController {
             const updatedUser = await this.#repo.updateUserById(id, userData);
 
             res.json(updatedUser);
+            //TODO -> Mejorar el manejo de errores
         } catch (error) {
             next(error);
 
@@ -91,6 +94,7 @@ export class UsersController {
             const deletedUser = await this.#repo.deleteUserById(id);
 
             res.json(deletedUser);
+            //TODO -> Mejorar el manejo de errores
         } catch (error) {
             next(error);
 
