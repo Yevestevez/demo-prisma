@@ -3,6 +3,11 @@
 import 'dotenv/config';
 import { defineConfig } from 'prisma/config';
 
+const databaseUrl = process.env['DATABASE_URL'];
+if (!databaseUrl) {
+    throw new Error('Missing required env var: DATABASE_URL');
+}
+
 export default defineConfig({
     schema: 'prisma/schema.prisma',
     migrations: {
@@ -10,6 +15,6 @@ export default defineConfig({
         seed: './src/config/db-seed-prisma.ts',
     },
     datasource: {
-        url: process.env['DATABASE_URL'],
+        url: databaseUrl,
     },
 });
