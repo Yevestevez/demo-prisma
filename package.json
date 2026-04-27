@@ -8,7 +8,7 @@
         "dev": "cross-env node --watch --env-file=.env ./src/index.ts",
         "test": "node --env-file=.env.test --test",
         "test:serie": "node --env-file=.env.test --test --test-concurrency=1",
-        "seed:dev": "node --env-file=.env ./src/config/db-seed-prisma.ts",
+        "seed:dev": "prisma db seed",
         "seed:test": "node --env-file=.env ./src/animals/schemas/db-seed-test.ts"
     },
     "repository": {
