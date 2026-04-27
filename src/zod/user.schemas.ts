@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ReviewModelSchema } from './film-schemas.ts';
+import { ReviewModelSchema } from './film.schemas.ts';
 
 import type {
     ProfileCreateWithoutUserInput,
