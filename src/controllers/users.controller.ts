@@ -80,6 +80,27 @@ export class UsersController {
         }
     };
 
+    getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+        log('Getting all users');
+
+        try {
+            const users: User[] = await this.#repo.getAllUsers();
+
+            res.json(users);
+        } catch (error) {
+            const finalError = new HttpError(
+                500,
+                'Internal Server Error',
+                'Failed to getting users',
+                {
+                    cause: error,
+                },
+            );
+
+            return next(finalError);
+        }
+    };
+
     getUserById = async (req: Request, res: Response, next: NextFunction) => {
         const id = Number(req.params.id);
         log(`Getting User with id ${id} from repo...`);
