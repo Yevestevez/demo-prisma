@@ -11,6 +11,7 @@ import type {
     UserUpdateDTO,
 } from '../zod/user.schemas.ts';
 import { AuthService } from '../services/auth.ts';
+import type { LoginResult, TokenPayload } from '../types/login.ts';
 
 const log = debug(`${env.PROJECT_NAME}:repo:users`);
 log('Loading users repo...');
