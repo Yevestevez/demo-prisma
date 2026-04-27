@@ -15,7 +15,7 @@ const globalOmit = {
 
 export type AppPrismaClient = PrismaClient<never, typeof globalOmit>;
 
-export const connectDB = async () => {
+export const connectDB = async (): Promise<AppPrismaClient> => {
     const adapter = new PrismaPg({
         user: env.PGUSER,
         password: env.PGPASSWORD,

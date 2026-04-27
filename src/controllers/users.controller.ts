@@ -2,7 +2,7 @@ import debug from 'debug';
 import type { NextFunction, Request, Response } from 'express';
 
 import { env } from '../config/env.ts';
-import type { UsersRepo } from '../repos/users-repo.ts';
+import type { UsersRepo } from '../repos/users.repo.ts';
 import type {
     UserCreateInput,
     UserCreateWithoutProfileInput,

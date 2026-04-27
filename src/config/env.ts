@@ -8,6 +8,7 @@ export const EnvSchema = z.object({
     PROJECT_NAME: z.string(),
     DEBUG: z.string().optional(),
     JWT_SECRET: z.string().min(32),
+    SALT_ROUNDS: z.coerce.number(),
 
     PGUSER: z.string(),
     PGPASSWORD: z.string(),

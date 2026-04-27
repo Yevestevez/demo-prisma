@@ -2,12 +2,12 @@ import { env } from './env.ts';
 import debug from 'debug';
 import { connectDB } from './db-config.ts';
 import { Role } from '../../generated/prisma/client.ts';
-import type { RegisterUserData } from '../zod/user-schemas.ts';
+import type { RegisterUserData } from '../zod/user.schemas.ts';
 import FILMS from '../../data/films.json' with { type: 'json' };
 import GENRES from '../../data/genres.json' with { type: 'json' };
 import { AuthService } from '../services/auth.ts';
 import { fileURLToPath } from 'node:url';
-import type { FilmCreateDTO, GenreCreateDTO } from '../zod/film-schemas.ts';
+import type { FilmCreateDTO, GenreCreateDTO } from '../zod/film.schemas.ts';
 
 const log = debug(`${env.PROJECT_NAME}:configDB`);
 
@@ -69,7 +69,7 @@ export const filmSeed = async (
                 director: film.director,
                 duration: film.duration,
                 rate: film.rate,
-                poster: film.poster as string,
+                poster: film.poster,
                 genres: {
                     connect: film.genres.map((genre) => ({ name: genre })),
                 },
@@ -93,7 +93,7 @@ export const userSeed = async (users: RegisterUserData[]) => {
             data: {
                 email: user.email,
                 password: hashedPassword,
-                role: user.role as Role,
+                role: user.role,
                 profile: {
                     create: user.profile,
                 },

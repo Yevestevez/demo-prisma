@@ -1,4 +1,5 @@
 import debug from 'debug';
+
 import { env } from '../config/env.ts';
 
 const log = debug(`${env.PROJECT_NAME}:http-error`);
@@ -16,6 +17,5 @@ export class HttpError extends Error {
         super(message, options);
         this.status = status;
         this.statusMessage = statusMessage || '';
-        console.log();
     }
 }
