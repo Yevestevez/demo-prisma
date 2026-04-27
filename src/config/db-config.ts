@@ -7,11 +7,13 @@ import { env } from './env.ts';
 const log = debug(`${env.PROJECT_NAME}:configDB`);
 log('Loading database connection...');
 
-export const globalOmit = {
+const globalOmit = {
     user: {
         password: true,
     },
 } as const;
+
+export type AppPrismaClient = PrismaClient<never, typeof globalOmit>;
 
 export const connectDB = async () => {
     const adapter = new PrismaPg({

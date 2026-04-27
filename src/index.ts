@@ -6,13 +6,6 @@ import { connectDB } from './config/db-config.ts';
 import { createApp } from './app.ts';
 
 const log = debug(`${env.PROJECT_NAME}:index`);
-log('Starting API server...');
-
-const prisma = await connectDB();
-
-const port = env.PORT || '3000';
-const server = createServer(createApp(prisma));
-log('Server created');
 
 const listenManager = () => {
     const addr = server.address();
@@ -33,5 +26,20 @@ const listenManager = () => {
     }
 };
 
-server.on('listening', listenManager);
-server.listen(port);
+const startServer = async () => {
+    log('Starting API server...');
+    const prisma = await connectDB();
+    const app = createApp(prisma);
+    const port = env.PORT || 3000;
+    const server = createServer(app);
+    log('Server created');
+    server.listen(port);
+    server.on('listening', listenManager);
+    // server.on('error', errorManager);
+    return server;
+};
+
+const server = await startServer().catch((error) => {
+    log('Error starting server:', error);
+    process.exit(1);
+});
