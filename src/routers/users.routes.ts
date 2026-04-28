@@ -9,21 +9,33 @@ import {
     UpdateUserDTOSchema,
     UserCredentialsDTOSchema,
 } from '../zod/user.schemas.ts';
+import type { AuthInterceptor } from '../middleware/auth.interceptor.ts';
 
 const log = debug(`${env.PROJECT_NAME}:router:users`);
 log('Loading Users router...');
 
 export class UsersRouter {
     #controller: UsersController;
+    #authInterceptor: AuthInterceptor;
     #router: Router;
 
-    constructor(controller: UsersController) {
+    constructor(controller: UsersController, authInterceptor: AuthInterceptor) {
         log('Starting Users router...');
         this.#controller = controller;
+        this.#authInterceptor = authInterceptor;
         this.#router = Router();
 
-        this.router.get('/', this.#controller.getAllUsers);
-        this.#router.get('/:id', validateId(), this.#controller.getUserById);
+        this.router.get(
+            '/',
+            this.#authInterceptor.authenticate,
+            this.#controller.getAllUsers,
+        );
+        this.#router.get(
+            '/:id',
+            validateId(),
+            this.#authInterceptor.authenticate,
+            this.#controller.getUserById,
+        );
 
         this.#router.post(
             '/register',
@@ -40,10 +52,16 @@ export class UsersRouter {
             '/:id',
             validateId(),
             validateBody(UpdateUserDTOSchema),
+            this.#authInterceptor.authenticate,
             this.#controller.updateUser,
         );
 
-        this.#router.delete('/:id', validateId(), this.#controller.deleteUser);
+        this.#router.delete(
+            '/:id',
+            validateId(),
+            this.#authInterceptor.authenticate,
+            this.#controller.deleteUser,
+        );
     }
 
     get router() {

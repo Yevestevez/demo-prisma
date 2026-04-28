@@ -28,12 +28,7 @@ export class AuthService {
         );
     }
 
-    static verifyToken(token: string): TokenPayload | null {
-        try {
-            return jwt.verify(token, env.JWT_SECRET) as TokenPayload;
-        } catch (error) {
-            log('Invalid token:', error);
-            return null;
-        }
+    static verifyToken(token: string): TokenPayload {
+        return jwt.verify(token, env.JWT_SECRET) as TokenPayload;
     }
 }
