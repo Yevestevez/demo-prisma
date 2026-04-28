@@ -21,21 +21,20 @@ import type {
 // que aceptamos en las operaciones de la aplicación,
 // permitiendo validar req.body, req.params, etc.
 
-export const ProfileModelSchema = z.strictObject({
-    id: z.number(),
+export const ProfileModelSchema = z.object({
     firstName: z.string(),
     surname: z.string(),
     avatar: z.string(),
 });
 
 // DTO para el perfil
-export const ProfileDTOSchema = z.strictObject({
+export const ProfileDTOSchema = z.object({
     firstName: z.string(),
     surname: z.string(),
     avatar: z.string(),
 });
 
-export const UserModelSchema = z.strictObject({
+export const UserModelSchema = z.object({
     id: z.number(),
     email: z.string(),
     password: z.string(),
@@ -45,7 +44,7 @@ export const UserModelSchema = z.strictObject({
 });
 
 // DTO para el login de usuarios
-export const UserCredentialsDTOSchema = z.strictObject({
+export const UserCredentialsDTOSchema = z.object({
     email: z.email(),
     password: z.string().min(6),
 });
@@ -59,7 +58,7 @@ export const UpdateUserDTOSchema = z.strictObject({
 });
 
 export const RegisterUserDTOSchema = UserCredentialsDTOSchema.extend(
-    z.strictObject({
+    z.object({
         role: z.enum(['ADMIN', 'EDITOR', 'USER']).optional(),
         profile: ProfileDTOSchema,
     }).shape,
@@ -73,8 +72,10 @@ export const RegisterUserDTOSchema = UserCredentialsDTOSchema.extend(
 // de dichas operaciones (Login Register, Update), que acepta sólo la parte
 // de los tipos Prisma que realmente queremos exponer en la API.
 
+type ProfileShape = Omit<ProfileModel, 'id'>;
+
 type UserModelShape = UserModel & {
-    profile?: ProfileModel;
+    profile?: Omit<ProfileModel, 'id'>;
     reviews?: ReviewModel[];
 };
 
@@ -124,7 +125,7 @@ type IsExact<A, B> = [A] extends [B]
 
 export type Profile = z.infer<typeof ProfileModelSchema>;
 // En Prisma corresponde a ProfileModel
-export type _ProfileCheck = Assert<IsExact<Profile, ProfileModel>>;
+export type _ProfileCheck = Assert<IsExact<Profile, ProfileShape>>;
 
 export type ProfileDTO = z.infer<typeof ProfileDTOSchema>;
 // En Prisma corresponde a ProfileCreateWithoutUserInput

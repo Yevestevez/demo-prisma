@@ -82,7 +82,9 @@ export class UsersRepo {
         log('Getting all users');
 
         return this.#prisma.user.findMany({
-            include: { profile: { omit: { id: true } } },
+            include: {
+                profile: true,
+            },
         }) as Promise<User[]>;
     };
 
@@ -91,7 +93,9 @@ export class UsersRepo {
 
         return this.#prisma.user.findUniqueOrThrow({
             where: { id },
-            include: { profile: { omit: { id: true } } },
+            include: {
+                profile: true,
+            },
         }) as unknown as Promise<User>;
     };
 
@@ -109,7 +113,9 @@ export class UsersRepo {
                     password: await AuthService.hash(userData.password),
                 }),
             },
-            include: { profile: { omit: { id: true } } },
+            include: {
+                profile: true,
+            },
         }) as unknown as Promise<User>;
     };
 
@@ -124,7 +130,9 @@ export class UsersRepo {
             data: {
                 profile: { update: profileData },
             },
-            include: { profile: { omit: { id: true } } },
+            include: {
+                profile: true,
+            },
         }) as unknown as Promise<User>;
     };
 

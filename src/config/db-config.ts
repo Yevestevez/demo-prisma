@@ -8,9 +8,8 @@ const log = debug(`${env.PROJECT_NAME}:configDB`);
 log('Loading database connection...');
 
 const globalOmit = {
-    user: {
-        password: true,
-    },
+    user: { password: true },
+    profile: { id: true },
 } as const;
 
 export type AppPrismaClient = PrismaClient<never, typeof globalOmit>;
