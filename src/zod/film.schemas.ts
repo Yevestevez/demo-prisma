@@ -29,7 +29,7 @@ export const ReviewRateDTOSchema = z.coerce
         message: 'rate debe tener como maximo un decimal',
     });
 
-export const ReviewModelSchema = z.object({
+export const ReviewModelSchema = z.strictObject({
     review: z.string(),
     rate: z.instanceof(Decimal),
     date: z.date(),
@@ -37,12 +37,12 @@ export const ReviewModelSchema = z.object({
     filmID: z.number(),
 });
 
-export const GenreModelSchema = z.object({
+export const GenreModelSchema = z.strictObject({
     id: z.number(),
     name: z.string(),
 });
 
-export const FilmModelSchema = z.object({
+export const FilmModelSchema = z.strictObject({
     id: z.number(),
     title: z.string(),
     year: z.number(),
@@ -54,13 +54,13 @@ export const FilmModelSchema = z.object({
     reviews: z.array(ReviewModelSchema).optional(),
 });
 
-export const GenreCreateDTOSchema = z.object({
+export const GenreCreateDTOSchema = z.strictObject({
     name: z.string().trim().min(1).max(60),
 });
 
 export const GenreUpdateDTOSchema = GenreCreateDTOSchema.partial();
 
-export const FilmCreateDTOSchema = z.object({
+export const FilmCreateDTOSchema = z.strictObject({
     title: z.string().trim().min(1).max(255),
     year: z.coerce.number().int(),
     director: z.string().trim().min(1).max(255),
@@ -77,11 +77,11 @@ export const FilmCreateDTOSchema = z.object({
 
 export const FilmUpdateDTOSchema = FilmCreateDTOSchema.partial();
 
-export const FilmParamsSchema = z.object({
+export const FilmParamsSchema = z.strictObject({
     id: z.coerce.number().int().positive(),
 });
 
-export const FilmQuerySchema = z.object({
+export const FilmQuerySchema = z.strictObject({
     title: z.string().trim().min(1).optional(),
     year: z.coerce.number().int().optional(),
     director: z.string().trim().min(1).optional(),
@@ -96,19 +96,19 @@ export const FilmQuerySchema = z.object({
     order: z.enum(['asc', 'desc']).optional(),
 });
 
-export const ReviewCreateDTOSchema = z.object({
+export const ReviewCreateDTOSchema = z.strictObject({
     review: z.string().trim().min(1),
     rate: ReviewRateDTOSchema,
     userID: z.coerce.number().int().positive(),
     filmID: z.coerce.number().int().positive(),
 });
 
-export const ReviewUpdateDTOSchema = z.object({
+export const ReviewUpdateDTOSchema = z.strictObject({
     review: z.string().trim().min(1).optional(),
     rate: ReviewRateDTOSchema.optional(),
 });
 
-export const ReviewParamsSchema = z.object({
+export const ReviewParamsSchema = z.strictObject({
     userID: z.coerce.number().int().positive(),
     filmID: z.coerce.number().int().positive(),
 });

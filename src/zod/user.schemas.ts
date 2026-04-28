@@ -21,7 +21,7 @@ import type {
 // que aceptamos en las operaciones de la aplicación,
 // permitiendo validar req.body, req.params, etc.
 
-export const ProfileModelSchema = z.object({
+export const ProfileModelSchema = z.strictObject({
     id: z.number(),
     firstName: z.string(),
     surname: z.string(),
@@ -29,13 +29,13 @@ export const ProfileModelSchema = z.object({
 });
 
 // DTO para el perfil
-export const ProfileDTOSchema = z.object({
+export const ProfileDTOSchema = z.strictObject({
     firstName: z.string(),
     surname: z.string(),
     avatar: z.string(),
 });
 
-export const UserModelSchema = z.object({
+export const UserModelSchema = z.strictObject({
     id: z.number(),
     email: z.string(),
     password: z.string(),
@@ -45,13 +45,13 @@ export const UserModelSchema = z.object({
 });
 
 // DTO para el login de usuarios
-export const UserCredentialsDTOSchema = z.object({
+export const UserCredentialsDTOSchema = z.strictObject({
     email: z.email(),
     password: z.string().min(6),
 });
 
 // El profile se actualiza independientemente
-export const UpdateUserDTOSchema = z.object({
+export const UpdateUserDTOSchema = z.strictObject({
     email: z.string().optional(),
     password: z.string().min(6).optional(),
     role: z.enum(['ADMIN', 'EDITOR', 'USER']).optional(),
@@ -59,7 +59,7 @@ export const UpdateUserDTOSchema = z.object({
 });
 
 export const RegisterUserDTOSchema = UserCredentialsDTOSchema.extend(
-    z.object({
+    z.strictObject({
         role: z.enum(['ADMIN', 'EDITOR', 'USER']).optional(),
         profile: ProfileDTOSchema,
     }).shape,
