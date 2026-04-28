@@ -82,7 +82,7 @@ export class UsersRepo {
         log('Getting all users');
 
         return this.#prisma.user.findMany({
-            include: { profile: true },
+            include: { profile: { omit: { id: true } } },
         }) as Promise<User[]>;
     };
 
@@ -91,8 +91,8 @@ export class UsersRepo {
 
         return this.#prisma.user.findUniqueOrThrow({
             where: { id },
-            include: { profile: true },
-        }) as Promise<User>;
+            include: { profile: { omit: { id: true } } },
+        }) as unknown as Promise<User>;
     };
 
     updateUserById = async (
