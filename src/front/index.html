@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>API FrontEnd</title>
+        <script type="module" src="./index.js" defer></script>
+    </head>
+    <body>
+        <h1>API FrontEnd</h1>
+        <main>
+            <p>
+                This is the frontend for the API. You can use this to interact
+                with the API.
+            </p>
+            <h2>Login</h2>
+            <form id="login-form">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required />
+                <br />
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required />
+                <br />
+                <button type="submit">Login</button>
+            </form>
+            <div>
+                <h2>Fetched Users</h2>
+                <button type="button" id="fetchUsersBtn">Fetch Users</button>
+            </div>
+            <div>
+                <h2>Logout</h2>
+                <button type="button" id="logoutBtn">Logout</button>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2026 API FrontEnd. All rights reserved.</p>
+        </footer>
+    </body>
+</html>
