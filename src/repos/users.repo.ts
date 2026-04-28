@@ -96,7 +96,7 @@ export class UsersRepo {
             include: {
                 profile: true,
             },
-        }) as unknown as Promise<User>;
+        }) as Promise<User>;
     };
 
     updateUserById = async (
@@ -116,7 +116,7 @@ export class UsersRepo {
             include: {
                 profile: true,
             },
-        }) as unknown as Promise<User>;
+        }) as Promise<User>;
     };
 
     updateUserProfile = async (
@@ -133,7 +133,7 @@ export class UsersRepo {
             include: {
                 profile: true,
             },
-        }) as unknown as Promise<User>;
+        }) as Promise<User>;
     };
 
     deleteUserById = async (id: number): Promise<User> => {
