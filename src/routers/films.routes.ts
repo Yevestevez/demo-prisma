@@ -24,23 +24,14 @@ export class FilmsRouter {
         this.#authInterceptor = authInterceptor;
         this.#router = Router();
 
-        this.router.get(
-            '/',
-            this.#authInterceptor.authenticate,
-            this.#controller.getAllFilms,
-        );
-        this.#router.get(
-            '/:id',
-            validateId(),
-            this.#authInterceptor.authenticate,
-            this.#controller.getFilmById,
-        );
+        this.router.get('/', this.#controller.getAllFilms);
+        this.#router.get('/:id', validateId(), this.#controller.getFilmById);
 
         this.#router.post(
             '/',
             validateBody(FilmCreateDTOSchema),
             this.#authInterceptor.authenticate,
-            // Configurar permisos necesarios para crear una película (ej: solo admin)
+            this.#authInterceptor.authorize(['EDITOR']),
             this.#controller.createFilm,
         );
 
@@ -49,7 +40,7 @@ export class FilmsRouter {
             validateId(),
             validateBody(FilmUpdateDTOSchema),
             this.#authInterceptor.authenticate,
-            // Configurar permisos necesarios para actualizar una película (ej: solo admin)
+            this.#authInterceptor.authorize(['EDITOR']),
             this.#controller.updateFilm,
         );
 
@@ -57,7 +48,7 @@ export class FilmsRouter {
             '/:id',
             validateId(),
             this.#authInterceptor.authenticate,
-            // Configurar permisos necesarios para borrar una película (ej: solo admin)
+            this.#authInterceptor.authorize(['EDITOR']),
             this.#controller.deleteFilm,
         );
     }
