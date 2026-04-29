@@ -1,10 +1,13 @@
-import type { PrismaClient } from '../../generated/prisma/client.ts';
-import type {
-    FilmCreateInput,
-    FilmUpdateInput,
-} from '../../generated/prisma/models.ts';
-import { env } from '../config/env.ts';
 import debug from 'debug';
+
+import { env } from '../config/env.ts';
+import type { PrismaClient } from '../../generated/prisma/client.ts';
+
+import {
+    type Film,
+    type FilmCreateDTO,
+    type FilmUpdateDTO,
+} from '../zod/film.schemas.ts';
 
 const log = debug(`${env.PROJECT_NAME}:repo:films`);
 log('Loading films repo...');
@@ -16,59 +19,75 @@ export class FilmsRepo {
         this.#prisma = prisma;
     }
 
-    getAllFilms = async () => {
-        const result = await this.#prisma.film.findMany();
+    getAllFilms = async (): Promise<Film[]> => {
+        log('Getting al films...');
 
-        if (result.length === 0) {
-            throw new Error('Films Not Found');
-        }
-
-        return result;
+        return this.#prisma.film.findMany({
+            include: {
+                reviews: true,
+                genres: true,
+            },
+        }) as Promise<Film[]>;
     };
 
-    getFilmById = async (id: number) => {
-        const result = await this.#prisma.film.findUnique({
+    getFilmById = async (id: number): Promise<Film> => {
+        log(`Getting film with id ${id}...`);
+
+        return this.#prisma.film.findUnique({
             where: {
                 id: id,
             },
-        });
-
-        if (!result) {
-            throw new Error('Film Not Found');
-        }
-
-        return result;
+        }) as Promise<Film>;
     };
 
-    // TODO -> PERMISOS SOLO PARA ADMIN
-    createFilm = async (filmData: FilmCreateInput) => {
-        const result = await this.#prisma.film.create({
-            data: filmData,
+    createFilm = async (filmData: FilmCreateDTO): Promise<Film> => {
+        const newFilm = await this.#prisma.film.create({
+            data: {
+                title: filmData.title,
+                year: filmData.year,
+                director: filmData.director,
+                duration: filmData.duration,
+                poster: filmData.poster,
+                rate: filmData.rate,
+                genres: {
+                    connect: filmData.genres.map((genre) => ({ name: genre })),
+                },
+            },
         });
 
-        return result;
+        return newFilm as Film;
     };
 
-    // TODO -> PERMISOS SOLO PARA ADMIN
-    updateFilmById = async (id: number, filmData: FilmUpdateInput) => {
-        const result = await this.#prisma.film.update({
+    updateFilmById = async (id: number, filmData: FilmUpdateDTO) => {
+        log(`Updating film with id ${id}...`);
+
+        filmData.genres = filmData.genres ?? [];
+
+        return this.#prisma.film.update({
             where: {
                 id: id,
             },
-            data: filmData,
-        });
-
-        return result;
+            data: {
+                title: filmData.title,
+                year: filmData.year,
+                director: filmData.director,
+                duration: filmData.duration,
+                poster: filmData.poster,
+                rate: filmData.rate,
+                genres: {
+                    connect: filmData.genres.map((genre) => ({ name: genre })),
+                },
+            },
+        }) as Promise<Film>;
     };
 
-    // TODO-> PERMISOS SOLO PARA ADMIN
     deleteFilmById = async (id: number) => {
-        const result = await this.#prisma.film.delete({
+        log(`Deleting film with id ${id}...`);
+
+        return this.#prisma.film.delete({
             where: {
                 id: id,
             },
-        });
-
-        return result;
+        }) as Promise<Film>;
     };
 }
