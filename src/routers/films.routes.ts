@@ -10,7 +10,7 @@ import {
     FilmUpdateDTOSchema,
 } from '../zod/film.schemas.ts';
 
-const log = debug(`${env.PROJECT_NAME}:router:users`);
+const log = debug(`${env.PROJECT_NAME}:router:films`);
 log('Loading Films router...');
 
 export class FilmsRouter {
