@@ -75,8 +75,8 @@ model Genre {
 }
 
 model Review {
-  user   User?  @relation(fields: [userID], references: [id])
-  film   Film?  @relation(fields: [filmID], references: [id])
+  user   User?  @relation(fields: [userID], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  film   Film?  @relation(fields: [filmID], references: [id], onUpdate: Cascade, onDelete: Cascade)
   review String
   rate   Decimal  @db.Decimal(3, 1)
   created_at DateTime @default(now()) @ignore
