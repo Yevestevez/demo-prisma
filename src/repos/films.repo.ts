@@ -24,20 +24,42 @@ export class FilmsRepo {
 
         return this.#prisma.film.findMany({
             include: {
-                reviews: true,
-                genres: true,
+                reviews: {
+                    omit: {
+                        userID: true,
+                        filmID: true,
+                    },
+                },
+                genres: {
+                    omit: {
+                        id: true,
+                    },
+                },
             },
-        }) as Promise<Film[]>;
+        });
     };
 
     getFilmById = async (id: number): Promise<Film> => {
         log(`Getting film with id ${id}...`);
 
-        return this.#prisma.film.findUnique({
+        return this.#prisma.film.findUniqueOrThrow({
             where: {
                 id: id,
             },
-        }) as Promise<Film>;
+            include: {
+                reviews: {
+                    omit: {
+                        userID: true,
+                        filmID: true,
+                    },
+                },
+                genres: {
+                    omit: {
+                        id: true,
+                    },
+                },
+            },
+        });
     };
 
     createFilm = async (filmData: FilmCreateDTO): Promise<Film> => {
@@ -55,12 +77,22 @@ export class FilmsRepo {
                     connect: filmData.genres.map((genre) => ({ name: genre })),
                 },
             },
+            include: {
+                genres: {
+                    omit: {
+                        id: true,
+                    },
+                },
+            },
         });
 
-        return newFilm as Film;
+        return newFilm;
     };
 
-    updateFilmById = async (id: number, filmData: FilmUpdateDTO) => {
+    updateFilmById = async (
+        id: number,
+        filmData: FilmUpdateDTO,
+    ): Promise<Film> => {
         log(`Updating film with id ${id}...`);
 
         filmData.genres = filmData.genres ?? [];
@@ -77,19 +109,45 @@ export class FilmsRepo {
                 poster: filmData.poster,
                 rate: filmData.rate,
                 genres: {
-                    connect: filmData.genres.map((genre) => ({ name: genre })),
+                    set: filmData.genres.map((genre) => ({ name: genre })),
                 },
             },
-        }) as Promise<Film>;
+            include: {
+                reviews: {
+                    omit: {
+                        userID: true,
+                        filmID: true,
+                    },
+                },
+                genres: {
+                    omit: {
+                        id: true,
+                    },
+                },
+            },
+        });
     };
 
-    deleteFilmById = async (id: number) => {
+    deleteFilmById = async (id: number): Promise<Film> => {
         log(`Deleting film with id ${id}...`);
 
         return this.#prisma.film.delete({
             where: {
                 id: id,
             },
-        }) as Promise<Film>;
+            include: {
+                reviews: {
+                    omit: {
+                        userID: true,
+                        filmID: true,
+                    },
+                },
+                genres: {
+                    omit: {
+                        id: true,
+                    },
+                },
+            },
+        });
     };
 }
