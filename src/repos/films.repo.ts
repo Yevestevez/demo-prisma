@@ -1,21 +1,20 @@
 import debug from 'debug';
 
 import { env } from '../config/env.ts';
-import type { PrismaClient } from '../../generated/prisma/client.ts';
-
 import {
     type Film,
     type FilmCreateDTO,
     type FilmUpdateDTO,
 } from '../zod/film.schemas.ts';
+import type { AppPrismaClient } from '../config/db-config.ts';
 
 const log = debug(`${env.PROJECT_NAME}:repo:films`);
 log('Loading films repo...');
 
 export class FilmsRepo {
-    #prisma: PrismaClient;
+    #prisma: AppPrismaClient;
 
-    constructor(prisma: PrismaClient) {
+    constructor(prisma: AppPrismaClient) {
         this.#prisma = prisma;
     }
 
