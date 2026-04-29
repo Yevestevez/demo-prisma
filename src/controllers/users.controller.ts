@@ -81,8 +81,8 @@ export class UsersController {
         }
     };
 
-    getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
-        log('Getting all users');
+    getAllUsers = async (_req: Request, res: Response, next: NextFunction) => {
+        log('Getting all users...');
 
         try {
             const users: User[] = await this.#repo.getAllUsers();
@@ -92,7 +92,7 @@ export class UsersController {
             const finalError = new HttpError(
                 500,
                 'Internal Server Error',
-                'Failed to getting users',
+                'Failed to get users',
                 {
                     cause: error,
                 },
@@ -128,7 +128,7 @@ export class UsersController {
             const finalError = new HttpError(
                 500,
                 'Internal Server Error',
-                'Failed to login user',
+                'Failed to get user',
                 {
                     cause: error,
                 },
@@ -168,7 +168,7 @@ export class UsersController {
             const finalError = new HttpError(
                 500,
                 'Internal Server Error',
-                'Failed to login user',
+                'Failed to update user',
                 {
                     cause: error,
                 },
@@ -204,7 +204,7 @@ export class UsersController {
             const finalError = new HttpError(
                 500,
                 'Internal Server Error',
-                'Failed to login user',
+                'Failed to delete user',
                 {
                     cause: error,
                 },
