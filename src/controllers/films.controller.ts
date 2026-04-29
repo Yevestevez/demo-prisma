@@ -5,7 +5,11 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client';
 import { env } from '../config/env.ts';
 import { HttpError } from '../errors/http-error.ts';
 import type { FilmsRepo } from '../repos/films.repo.ts';
-import type { Film, FilmUpdateDTO } from '../zod/film.schemas.ts';
+import type {
+    Film,
+    FilmCreateDTO,
+    FilmUpdateDTO,
+} from '../zod/film.schemas.ts';
 
 const log = debug(`${env.PROJECT_NAME}:controller:films`);
 log('Starting films controller...');
@@ -74,7 +78,29 @@ export class FilmsController {
         }
     };
 
-    // createFilm = ...
+    createFilm = async (req: Request, res: Response, next: NextFunction) => {
+        log('Creating new film...');
+
+        try {
+            const filmData: FilmCreateDTO = req.body;
+            const newFilm: Film = await this.#repo.createFilm(filmData);
+
+            res.status(201).json(newFilm);
+        } catch (error) {
+            log('Error registering film: %O', error);
+
+            const finalError = new HttpError(
+                500,
+                'Internal Server Error',
+                'Failed to register user',
+                {
+                    cause: error,
+                },
+            );
+
+            return next(finalError);
+        }
+    };
 
     updateFilm = async (req: Request, res: Response, next: NextFunction) => {
         const id = Number(req.params.id);
