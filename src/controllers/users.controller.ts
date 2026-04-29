@@ -183,9 +183,9 @@ export class UsersController {
         log(`Deleting User with id ${id} from repo...`);
 
         try {
-            const deletedUser: User = await this.#repo.deleteUserById(id);
+            await this.#repo.deleteUserById(id);
 
-            res.json(deletedUser);
+            res.status(204).send();
         } catch (error) {
             log('Error deleting user by id: %O', error);
             if (error instanceof PrismaClientKnownRequestError) {

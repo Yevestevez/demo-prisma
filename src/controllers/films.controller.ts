@@ -147,9 +147,9 @@ export class FilmsController {
         log(`Deleting Film with id ${id} from repo...`);
 
         try {
-            const deletedfilm: Film = await this.#repo.deleteFilmById(id);
+            await this.#repo.deleteFilmById(id);
 
-            res.json(deletedfilm);
+            res.status(204).send();
         } catch (error) {
             log('Error deleting film by id: %O', error);
             if (error instanceof PrismaClientKnownRequestError) {
