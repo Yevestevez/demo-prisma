@@ -7,6 +7,10 @@ import { validateBody, validateId } from '../middleware/validations.ts';
 
 import type { AuthInterceptor } from '../middleware/auth.interceptor.ts';
 import type { FilmsController } from '../controllers/films.controller.ts';
+import {
+    FilmCreateDTOSchema,
+    FilmUpdateDTOSchema,
+} from '../zod/film.schemas.ts';
 
 const log = debug(`${env.PROJECT_NAME}:router:users`);
 log('Loading Users router...');
@@ -36,30 +40,27 @@ export class FilmsRouter {
 
         this.#router.post(
             '/',
-            validateBody(RegisterUserDTOSchema),
-            this.#controller.,
-        );
-        this.#router.post(
-            '/login',
-            validateBody(UserCredentialsDTOSchema),
-            this.#controller.login,
+            validateBody(FilmCreateDTOSchema),
+            this.#authInterceptor.authenticate,
+            // Configurar permisos necesarios para crear una película (ej: solo admin)
+            this.#controller.createFilm,
         );
 
         this.#router.patch(
             '/:id',
             validateId(),
-            validateBody(UpdateUserDTOSchema),
+            validateBody(FilmUpdateDTOSchema),
             this.#authInterceptor.authenticate,
-            this.#authInterceptor.isOwnerOrAdmin,
-            this.#controller.updateUser,
+            // Configurar permisos necesarios para actualizar una película (ej: solo admin)
+            this.#controller.updateFilm,
         );
 
         this.#router.delete(
             '/:id',
             validateId(),
             this.#authInterceptor.authenticate,
-            this.#authInterceptor.isOwnerOrAdmin,
-            this.#controller.deleteUser,
+            // Configurar permisos necesarios para borrar una película (ej: solo admin)
+            this.#controller.deleteFilm,
         );
     }
 
