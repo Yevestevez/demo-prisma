@@ -67,4 +67,96 @@ export class GenreController {
             return next(finalError);
         }
     };
+
+    createGenre = async (req: Request, res: Response, next: NextFunction) => {
+        const { name } = req.body;
+        log(`Creating genre with name ${name}...`);
+
+        try {
+            const genre: Genre = await this.#genreRepo.createGenre(name);
+
+            return res.status(201).json(genre);
+        } catch (error) {
+            log('Error creating genre: %O', error);
+
+            const finalError = new InternalServerError(
+                'Failed to create genre',
+                {
+                    cause: error,
+                },
+            );
+
+            return next(finalError);
+        }
+    };
+
+    updateGenre = async (req: Request, res: Response, next: NextFunction) => {
+        const id = Number(req.params.id);
+        const { name } = req.body;
+        log(`Updating genre with id ${id}...`);
+
+        try {
+            const updatedGenre: Genre = await this.#genreRepo.updateGenre(
+                id,
+                name,
+            );
+
+            return res.json(updatedGenre);
+        } catch (error) {
+            log('Error updating genre by id: %O', error);
+
+            if (error instanceof PrismaClientKnownRequestError) {
+                const finalError = new NotFoundError(
+                    `Genre with id ${id} not found`,
+                    {
+                        cause: error,
+                    },
+                );
+
+                return next(finalError);
+            }
+
+            const finalError = new InternalServerError(
+                `Failed to update genre with id ${id}`,
+                {
+                    cause: error,
+                },
+            );
+
+            return next(finalError);
+        }
+    };
+
+    deleteGenre = async (req: Request, res: Response, next: NextFunction) => {
+        const id = Number(req.params.id);
+        log(`Deleting genre with id ${id}...`);
+
+        try {
+            const deletedGenre: Genre = await this.#genreRepo.deleteGenre(id);
+
+            return res.json(deletedGenre);
+        } catch (error) {
+            log('Error deleting genre by id: %O', error);
+
+            if (error instanceof PrismaClientKnownRequestError) {
+                const finalError = new NotFoundError(
+                    `Genre with id ${id} not found`,
+                    {
+                        cause: error,
+                    },
+                );
+
+                return next(finalError);
+            }
+
+            const finalError = new InternalServerError(
+                `Failed to delete genre with id ${id}`,
+                {
+                    cause: error,
+                },
+            );
+
+            return next(finalError);
+        }
+    };
 }
