@@ -1,6 +1,7 @@
-import type { AppPrismaClient } from '../config/db-config.ts';
-import { env } from '../config/env.ts';
 import debug from 'debug';
+
+import { env } from '../config/env.ts';
+import type { AppPrismaClient } from '../config/db-config.ts';
 import type {
     Genre,
     GenreCreateDTO,

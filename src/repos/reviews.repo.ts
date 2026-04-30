@@ -1,91 +1,47 @@
-import type { PrismaClient } from '../../generated/prisma/client.ts';
-import type {
-    ReviewCreateInput,
-    ReviewUpdateInput,
-} from '../../generated/prisma/models.ts';
+import debug from 'debug';
 
 import { env } from '../config/env.ts';
-import debug from 'debug';
+import type { AppPrismaClient } from '../config/db-config.ts';
 
 const log = debug(`${env.PROJECT_NAME}:repo:reviews`);
 log('Loading reviews repo...');
 
 export class ReviewsRepo {
-    #prisma: PrismaClient;
+    #prisma: AppPrismaClient;
 
-    constructor(prisma: PrismaClient) {
+    constructor(prisma: AppPrismaClient) {
         this.#prisma = prisma;
     }
 
-    getUserReviews = async (userId: number) => {
-        const result = await this.#prisma.review.findMany({
+    getAllFilmsReviews = async (filmID: number) => {
+        log(`Getting all reviews for film with id ${filmID}...`);
+
+        return await this.#prisma.review.findMany({
             where: {
-                userID: userId,
+                filmID,
             },
-        });
-
-        // TODO -> Que no haya reviews no es un error
-        if (result.length === 0) {
-            throw new Error('Reviews Not Found');
-        }
-
-        return result;
-    };
-
-    getFilmReviews = async (filmId: number) => {
-        const result = await this.#prisma.review.findMany({
-            where: {
-                filmID: filmId,
+            omit: {
+                filmID: true,
+                userID: true,
             },
-        });
-
-        // TODO -> Que no haya reviews no es un error
-        if (result.length === 0) {
-            throw new Error('Reviews Not Found');
-        }
-
-        return result;
-    };
-
-    // TODO -> PERMISOS SOLO PARA USER
-    createReview = async (reviewData: ReviewCreateInput) => {
-        const result = await this.#prisma.review.create({
-            data: reviewData,
-        });
-
-        return result;
-    };
-
-    // TODO -> PERMISOS SOLO PARA OWNER
-    updateReview = async (
-        userId: number,
-        filmId: number,
-        reviewData: ReviewUpdateInput,
-    ) => {
-        const result = await this.#prisma.review.update({
-            where: {
-                userID_filmID: {
-                    userID: userId,
-                    filmID: filmId,
+            include: {
+                user: {
+                    select: {
+                        profile: {
+                            select: {
+                                firstName: true,
+                                surname: true,
+                                avatar: true,
+                            },
+                        },
+                    },
                 },
-            },
-            data: reviewData,
-        });
-
-        return result;
-    };
-
-    // TODO-> PERMISOS SOLO PARA OWNER Y ADMIN
-    deleteReview = async (userId: number, filmId: number) => {
-        const result = await this.#prisma.review.delete({
-            where: {
-                userID_filmID: {
-                    userID: userId,
-                    filmID: filmId,
+                film: {
+                    select: {
+                        title: true,
+                    },
                 },
             },
         });
-
-        return result;
     };
 }
