@@ -20,7 +20,7 @@ export class ReviewsRepo {
     getUserReviews = async (userId: number) => {
         const result = await this.#prisma.review.findMany({
             where: {
-                userId: userId,
+                userID: userId,
             },
         });
 
@@ -35,7 +35,7 @@ export class ReviewsRepo {
     getFilmReviews = async (filmId: number) => {
         const result = await this.#prisma.review.findMany({
             where: {
-                filmId: filmId,
+                filmID: filmId,
             },
         });
 
@@ -64,9 +64,9 @@ export class ReviewsRepo {
     ) => {
         const result = await this.#prisma.review.update({
             where: {
-                userId_filmId: {
-                    userId: userId,
-                    filmId: filmId,
+                userID_filmID: {
+                    userID: userId,
+                    filmID: filmId,
                 },
             },
             data: reviewData,
@@ -79,9 +79,9 @@ export class ReviewsRepo {
     deleteReview = async (userId: number, filmId: number) => {
         const result = await this.#prisma.review.delete({
             where: {
-                userId_filmId: {
-                    userId: userId,
-                    filmId: filmId,
+                userID_filmID: {
+                    userID: userId,
+                    filmID: filmId,
                 },
             },
         });
