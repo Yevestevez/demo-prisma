@@ -16,7 +16,7 @@ const unauthorizedError = new HttpError(
 );
 
 export class AuthInterceptor {
-    authenticate = (req: Request, _res: Response, next: NextFunction) => {
+    authenticate = async (req: Request, _res: Response, next: NextFunction) => {
         log('Authenticating request...');
 
         const authHeader = req.header('authorization');
@@ -34,7 +34,7 @@ export class AuthInterceptor {
         }
 
         try {
-            const payload = AuthService.verifyToken(token);
+            const payload = await AuthService.verifyTokenAsync(token);
             req.user = payload;
             log('Token verified successfully:', { payload });
 

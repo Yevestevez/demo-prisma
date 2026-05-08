@@ -73,7 +73,7 @@ export class UsersRepo {
             email: result.email,
             role: result.role,
         };
-        const token = AuthService.generateToken(payload);
+        const token = await AuthService.generateTokenAsync(payload);
 
         return { payload, token };
     };

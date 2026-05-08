@@ -71,6 +71,21 @@ describe('GIVEN method <generateToken> from class AuthService', () => {
     });
 });
 
+describe('GIVEN method <generateTokenAsync> from class AuthService', () => {
+    describe('WHEN it is executed', () => {
+        test('THEN ot will return a token (string)', async () => {
+            // Arrange
+            const payloadMock = {} as TokenPayload;
+            const algToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9';
+            // Act
+            const result = await AuthService.generateTokenAsync(payloadMock);
+            // Assert
+            expect(result).toBeTypeOf('string');
+            expect(result).toContain(algToken);
+        });
+    });
+});
+
 describe('GIVEN method <verifyToken> from class AuthService', () => {
     describe('WHEN it is executed with a valid token', () => {
         test('THEN it will return a token payload (object)', async () => {
@@ -91,6 +106,32 @@ describe('GIVEN method <verifyToken> from class AuthService', () => {
             const badToken = 'Invalid token';
             // Act & Assert
             expect(() => AuthService.verifyToken(badToken)).toThrow();
+        });
+    });
+});
+
+describe('GIVEN method <verifyTokenAsync> from class AuthService', () => {
+    describe('WHEN it is executed with a valid token', () => {
+        test('THEN it will return a token payload (object)', async () => {
+            // Arrange
+            const payloadMock = { id: 12 } as TokenPayload;
+            const token = await AuthService.generateTokenAsync(payloadMock);
+            // Act
+            const { iat, ...result } = await AuthService.verifyToken(token);
+            // Assert
+            expect(iat).toBeTypeOf('number');
+            expect(result).toEqual(payloadMock);
+        });
+    });
+
+    describe('WHEN it is executed with an invalid token', () => {
+        test('THEN it will reject the promise', async () => {
+            // Arrange
+            const badToken = 'Invalid token';
+            // Act & Assert
+            expect(() =>
+                AuthService.verifyTokenAsync(badToken),
+            ).rejects.toThrow();
         });
     });
 });
