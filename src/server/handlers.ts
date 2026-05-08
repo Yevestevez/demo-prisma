@@ -2,7 +2,7 @@ import { env } from '../config/env.ts';
 import debug from 'debug';
 import type { Server } from 'node:http';
 
-const log = debug(`${env.PROJECT_NAME}:server`);
+const log = debug(`${env.PROJECT_NAME}:server:handlers`);
 log('Loading server handlers...');
 
 export const listenManager = (server: Server) => {
