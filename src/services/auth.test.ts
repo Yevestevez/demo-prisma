@@ -18,7 +18,7 @@ import { AuthService } from './auth.ts';
 
 describe('GIVEN method <hash> from class AuthService', () => {
     describe('WHEN it is executed', () => {
-        test('THEN return a string', async () => {
+        test('THEN it will return a string', async () => {
             // Arrange
             const password = '123456';
             // Act
@@ -32,7 +32,7 @@ describe('GIVEN method <hash> from class AuthService', () => {
 
 describe('GIVEN method <compare> from class AuthService', () => {
     describe('WHEN it is executed with a valid password', () => {
-        test('THEN return true', async () => {
+        test('THEN it will return true', async () => {
             // Arrange
             const password = '123456';
             const hash = await AuthService.hash(password);
@@ -44,7 +44,7 @@ describe('GIVEN method <compare> from class AuthService', () => {
     });
 
     describe('WHEN it is executed with an invalid password', () => {
-        test('THEN return false', async () => {
+        test('THEN it will return false', async () => {
             // Arrange
             const password = '123456';
             const hash = await AuthService.hash('Invalid password');
@@ -58,7 +58,7 @@ describe('GIVEN method <compare> from class AuthService', () => {
 
 describe('GIVEN method <generateToken> from class AuthService', () => {
     describe('WHEN it is executed', () => {
-        test('THEN return a token (string)', async () => {
+        test('THEN ot will return a token (string)', async () => {
             // Arrange
             const payloadMock = {} as TokenPayload;
             const algToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9';
@@ -71,6 +71,26 @@ describe('GIVEN method <generateToken> from class AuthService', () => {
     });
 });
 
-describe.todo('Given method <verifyToken> from class AuthService', () => {
-    //
+describe('GIVEN method <verifyToken> from class AuthService', () => {
+    describe('WHEN it is executed with a valid token', () => {
+        test('THEN it will return a token payload (object)', async () => {
+            // Arrange
+            const payloadMock = { id: 12 } as TokenPayload;
+            const token = await AuthService.generateToken(payloadMock);
+            // Act
+            const { iat, ...result } = await AuthService.verifyToken(token);
+            // Assert
+            expect(iat).toBeTypeOf('number');
+            expect(result).toEqual(payloadMock);
+        });
+    });
+
+    describe('WHEN it is executed with an invalid token', () => {
+        test('THEN it will throw an error', async () => {
+            // Arrange
+            const badToken = 'Invalid token';
+            // Act & Assert
+            expect(() => AuthService.verifyToken(badToken)).toThrow();
+        });
+    });
 });
