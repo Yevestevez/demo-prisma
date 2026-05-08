@@ -11,7 +11,8 @@
         "db:push:test": "prisma db push --config prisma.test.config.ts",
         "db:seed:test": "prisma db seed --config prisma.test.config.ts",
         "seed:test": "npm run db:push:test && npm run db:seed:test",
-        "test": "node --env-file=.env.test --test",
+        "test": "vitest",
+        "test:coverage": "vitest run --coverage",
         "test:serie": "node --env-file=.env.test --test --test-concurrency=1"
     },
     "repository": {
@@ -51,12 +52,14 @@
         "@types/node": "^25.6.0",
         "@types/pg": "^8.20.0",
         "@types/serve-static": "^2.2.0",
+        "@vitest/coverage-v8": "^4.1.5",
         "eslint": "^10.0.3",
         "globals": "^17.4.0",
         "prettier": "^3.8.1",
         "prisma": "^7.7.0",
         "typescript": "^5.9.3",
-        "typescript-eslint": "^8.57.1"
+        "typescript-eslint": "^8.57.1",
+        "vitest": "^4.1.5"
     },
     "prettier": {
         "singleQuote": true

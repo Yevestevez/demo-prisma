@@ -1,6 +1,6 @@
 # Films
 
-Ejemplo de API de películas, géneros, reviews y usuarios (profile)
+Ejemplo de API implementada con Node.js, Express y Prisma para gestionar películas, géneros, reviews y usuarios (profile).
 
 ## Instalación
 
@@ -12,7 +12,54 @@ Ejemplo de API de películas, géneros, reviews y usuarios (profile)
 - Ejecutar migraciones para crear la base de datos con `npx prisma migrate dev`
 - Iniciar el servidor con `npm start` o `npm run dev` para modo desarrollo.
 
+Vitest:
+
+```shell
+npm i -D vitest @vitest/coverage-v8
+```
+
+- Script para ejecutar tests:
+
+```json
+"scripts": {
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
+}
+```
+
+- Agregar un archivo de configuración para Vitest, por ejemplo `vitest.config.ts`:
+
+```typescript
+import { defineConfig } from 'vitest/config';
+export default defineConfig({
+    test: {
+        globals: true,
+    },
+});
+```
+
 ## Estructura del proyecto
+
+La estructura del proyecto se organiza de la siguiente manera:
+
+```
+├── src
+│   ├── controllers
+│   ├── routes
+│   ├── services
+│   ├── prisma
+│   ├── app.ts
+│   └── server.ts
+├── prisma
+│   ├── schema.prisma
+│   ├── prisma.test.config.ts
+│   └── seed.ts
+├── .env
+├── .env.example
+├── package.json
+├── tsconfig.json
+└── README.md
+```
 
 ## Relación entre las tablas
 
@@ -26,6 +73,7 @@ usuarios ---1:1 -----> profile
 
 ## EndPoints
 
+```text
 [GET] /api/películas
 [GET] /api/películas/:id
 [POST] /api/películas [Admin/Editor]
@@ -43,3 +91,4 @@ usuarios ---1:1 -----> profile
 [POST] /api/reviews [User]
 [PATCH] /api/reviews/:id [Owner]
 [DELETE] /api/reviews/id [Owner,Admin]
+```
