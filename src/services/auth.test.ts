@@ -1,3 +1,4 @@
+import type { TokenPayload } from '../types/login.ts';
 import { AuthService } from './auth.ts';
 
 // vitest.mock('zod', () => {
@@ -15,9 +16,9 @@ import { AuthService } from './auth.ts';
 //     };
 // });
 
-describe('Given method <hash> from class AuthService', () => {
-    describe('When it is executed', () => {
-        test('Then return a string', async () => {
+describe('GIVEN method <hash> from class AuthService', () => {
+    describe('WHEN it is executed', () => {
+        test('THEN return a string', async () => {
             // Arrange
             const password = '123456';
             // Act
@@ -29,9 +30,9 @@ describe('Given method <hash> from class AuthService', () => {
     });
 });
 
-describe('Given method <compare> from class AuthService', () => {
-    describe('When it is executed with a valid password', () => {
-        test('Then return true', async () => {
+describe('GIVEN method <compare> from class AuthService', () => {
+    describe('WHEN it is executed with a valid password', () => {
+        test('THEN return true', async () => {
             // Arrange
             const password = '123456';
             const hash = await AuthService.hash(password);
@@ -41,10 +42,33 @@ describe('Given method <compare> from class AuthService', () => {
             expect(result).toBe(true);
         });
     });
+
+    describe('WHEN it is executed with an invalid password', () => {
+        test('THEN return false', async () => {
+            // Arrange
+            const password = '123456';
+            const hash = await AuthService.hash('Invalid password');
+            // Act
+            const result = await AuthService.compare(password, hash);
+            // Assert
+            expect(result).toBe(false);
+        });
+    });
 });
 
-describe.todo('Given method <generateToken> from class AuthService', () => {
-    //
+describe('GIVEN method <generateToken> from class AuthService', () => {
+    describe('WHEN it is executed', () => {
+        test('THEN return a token (string)', async () => {
+            // Arrange
+            const payloadMock = {} as TokenPayload;
+            const algToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9';
+            // Act
+            const result = await AuthService.generateToken(payloadMock);
+            // Assert
+            expect(result).toBeTypeOf('string');
+            expect(result).toContain(algToken);
+        });
+    });
 });
 
 describe.todo('Given method <verifyToken> from class AuthService', () => {
