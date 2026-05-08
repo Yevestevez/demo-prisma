@@ -34,8 +34,17 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
     test: {
         globals: true,
+        setupFiles: './src/config/setup-test.ts',
     },
 });
+```
+
+- Crear un archivo de configuración para pruebas, por ejemplo `src/config/setup-test.ts`, donde se pueden configurar variables de entorno específicas para las pruebas o realizar cualquier configuración necesaria antes de ejecutar los tests.
+
+```typescript
+import { loadEnvFile } from 'node:process';
+
+loadEnvFile('.env.test');
 ```
 
 ## Estructura del proyecto
