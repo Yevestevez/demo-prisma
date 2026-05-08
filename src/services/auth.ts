@@ -29,15 +29,15 @@ export class AuthService {
     }
 
     static generateTokenAsync(payload: TokenPayload): Promise<string> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             jwt.sign(
                 payload,
                 env.JWT_SECRET,
                 //{ expiresIn: '1h' }
-                (err, token) => {
-                    if (err) {
-                        reject(err);
-                    }
+                (_err, token) => {
+                    // if (err) {
+                    //     reject(err);
+                    // }
 
                     resolve(token as string);
                 },
