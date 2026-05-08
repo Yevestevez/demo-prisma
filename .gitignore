@@ -142,4 +142,8 @@ vite.config.ts.timestamp-*
 # VSCode config
 .vscode
 
+# Prisma
 /generated/prisma
+
+# Coverage
+coverage
