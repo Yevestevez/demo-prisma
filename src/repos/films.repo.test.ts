@@ -66,12 +66,25 @@ describe('GIVEN a instance of <FilmsRepo> class', () => {
     });
 
     describe('WHEN method createFilm is called', () => {
-        test('THEN it should create a new film and return it', async () => {
-            // Act
-            const film = await repo.createFilm({} as FilmCreateDTO);
-            // Assert
-            //expect(prismaMock.film.create).toHaveBeenCalled();
-            expect(film).toEqual({});
+        describe('And there is a genre in data', () => {
+            test('THEN it should return the created film', async () => {
+                // Act
+                const film = await repo.createFilm({
+                    genres: ['Action'],
+                } as FilmCreateDTO);
+                // Assert
+                expect(prismaMock.film.create).toHaveBeenCalled();
+                expect(film).toEqual({});
+            });
+        });
+
+        describe('And there is NOT a genre in data', () => {
+            test('THEN it return the updated film', async () => {
+                const film = await repo.createFilm({} as FilmCreateDTO);
+                // Assert
+                expect(prismaMock.film.create).toHaveBeenCalled();
+                expect(film).toEqual({});
+            });
         });
     });
 
@@ -79,7 +92,9 @@ describe('GIVEN a instance of <FilmsRepo> class', () => {
         describe('AND the film with the given id exists', () => {
             test('THEN it should update the film and return it', async () => {
                 // Act
-                const film = await repo.updateFilmById(1, {} as FilmCreateDTO);
+                const film = await repo.updateFilmById(1, {
+                    genres: ['Action'],
+                } as FilmCreateDTO);
                 // Assert
                 expect(prismaMock.film.update).toHaveBeenCalled();
                 expect(film).toEqual({});
