@@ -73,7 +73,7 @@ export class FilmsRepo {
                 poster: filmData.poster,
                 rate: filmData.rate,
                 genres: {
-                    connect: filmData.genres.map((genre) => ({ name: genre })),
+                    connect: filmData.genres?.map((genre) => ({ name: genre })),
                 },
             },
             include: {

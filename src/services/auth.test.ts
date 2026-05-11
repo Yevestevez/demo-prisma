@@ -1,21 +1,6 @@
 import type { TokenPayload } from '../types/login.ts';
 import { AuthService } from './auth.ts';
 
-// vitest.mock('zod', () => {
-//     return {
-//         object: vitest.fn().mockReturnValue({
-//             parse: vitest.fn().mockReturnValue({ SALT_ROUNDS: 1 }),
-//         }),
-//         coerce: {
-//             number: vitest.fn(),
-//         },
-//         enum: vitest.fn(),
-//         string: vitest
-//             .fn()
-//             .mockReturnValue({ optional: vitest.fn(), min: vitest.fn() }),
-//     };
-// });
-
 describe('GIVEN method <hash> from class AuthService', () => {
     describe('WHEN it is executed', () => {
         test('THEN it will return a string', async () => {
