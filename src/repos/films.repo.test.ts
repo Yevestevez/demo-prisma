@@ -27,12 +27,12 @@ describe('GIVEN a instance of <FilmsRepo> class', () => {
     // Arrange
 
     describe('WHEN the instance is created', () => {
-        test('THEN it should be an instance of FilmsRepo', () => {
+        test('THEN it should be an instance of <FilmsRepo>', () => {
             expect(repo).toBeInstanceOf(FilmsRepo);
         });
     });
 
-    describe('WHEN method getAllFilms is called', () => {
+    describe('WHEN method <getAllFilms> is called', () => {
         test('THEN it return the array of films', async () => {
             // Act
             const films = await repo.getAllFilms();
@@ -41,7 +41,7 @@ describe('GIVEN a instance of <FilmsRepo> class', () => {
         });
     });
 
-    describe('WHEN method getFilmById is called', () => {
+    describe('WHEN method <getFilmById> is called', () => {
         describe('AND the film with the given id exists', () => {
             test('THEN it return the film with the given id', async () => {
                 // Act
@@ -50,7 +50,7 @@ describe('GIVEN a instance of <FilmsRepo> class', () => {
                 expect(prismaMock.film.findUniqueOrThrow).toHaveBeenCalled();
                 expect(film).toEqual({});
             });
-            describe('AND the film with the given id does not exist', () => {
+            describe('AND the film with the given id does NOT exist', () => {
                 test('THEN it should throw an error', async () => {
                     // Arrange
                     (
@@ -65,7 +65,7 @@ describe('GIVEN a instance of <FilmsRepo> class', () => {
         });
     });
 
-    describe('WHEN method createFilm is called', () => {
+    describe('WHEN method <createFilm> is called', () => {
         describe('And there is a genre in data', () => {
             test('THEN it should return the created film', async () => {
                 // Act
@@ -88,7 +88,7 @@ describe('GIVEN a instance of <FilmsRepo> class', () => {
         });
     });
 
-    describe('WHEN method updateFilm is called', () => {
+    describe('WHEN method <updateFilm> is called', () => {
         describe('AND the film with the given id exists', () => {
             test('THEN it should update the film and return it', async () => {
                 // Act
@@ -100,7 +100,7 @@ describe('GIVEN a instance of <FilmsRepo> class', () => {
                 expect(film).toEqual({});
             });
         });
-        describe('AND the film with the given id does not exist', () => {
+        describe('AND the film with the given id does NOT exist', () => {
             test('THEN it should throw an error', async () => {
                 // Arrange
                 (prismaMock.film.update as Mock).mockRejectedValue(
@@ -114,7 +114,7 @@ describe('GIVEN a instance of <FilmsRepo> class', () => {
         });
     });
 
-    describe('WHEN method deleteFilm is called', () => {
+    describe('WHEN method <deleteFilm> is called', () => {
         describe('AND the film with the given id exists', () => {
             test('THEN it should delete the film and return it', async () => {
                 // Act
@@ -124,7 +124,7 @@ describe('GIVEN a instance of <FilmsRepo> class', () => {
                 expect(film).toEqual({});
             });
         });
-        describe('AND the film with the given id does not exist', () => {
+        describe('AND the film with the given id does NOT exist', () => {
             test('THEN it should throw an error', async () => {
                 // Arrange
                 (prismaMock.film.delete as Mock).mockRejectedValue(
