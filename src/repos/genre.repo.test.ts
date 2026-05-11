@@ -3,7 +3,7 @@ import type { AppPrismaClient } from '../config/db-config.ts';
 import { GenreRepo } from './genre.repo.ts';
 import type { GenreCreateDTO, GenreUpdateDTO } from '../zod/film.schemas.ts';
 
-describe('GIVEN an instance of <GenreRepo> class ', () => {
+describe('GIVEN an instance of <GenreRepo> class', () => {
     let repo: GenreRepo;
     let prismaMock: AppPrismaClient;
 
@@ -29,10 +29,6 @@ describe('GIVEN an instance of <GenreRepo> class ', () => {
             expect(repo).toBeInstanceOf(GenreRepo);
         });
     });
-
-    // describe: WHEN Método llamado
-    // ? describe: y el ID existe o NO existe
-    // test: THEN devuelve...
 
     describe('WHEN method <getAllGenres> is called', () => {
         test('THEN it returns the array of genres', async () => {
