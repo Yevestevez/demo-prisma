@@ -5,17 +5,20 @@ describe('GIVEN customHeaders function', () => {
     describe('WHEN it is executed', () => {
         test('THEN it will call res.setHeader method and next function', () => {
             // Arrange
-            const _req: Request = {};
+            const _req = {} as Request;
             const res = {
-                setHeader: vitest.fn(),
+                setHeader: vi.fn(),
             } as unknown as Response;
-            const next: NextFunction = vitest.fn();
-            const project = '';
+            const next = vi.fn() as NextFunction;
+            const project = 'demo-prisma';
+            const middleware = customHeaders(project);
+
             // Act
-            customHeaders(project);
+            middleware(_req, res, next);
+
             // Assert
-            expect(res.setHeader).toHaveBeenCalledWith('', '');
-            expect(next).not.toHaveBeenCalled();
+            expect(res.setHeader).toHaveBeenCalledWith('X-Project', project);
+            expect(next).toHaveBeenCalled();
         });
     });
 });
