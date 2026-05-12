@@ -114,7 +114,7 @@ describe('GIVEN method <verifyTokenAsync> from class AuthService', () => {
             // Arrange
             const badToken = 'Invalid token';
             // Act & Assert
-            expect(() =>
+            await expect(() =>
                 AuthService.verifyTokenAsync(badToken),
             ).rejects.toThrow();
         });
