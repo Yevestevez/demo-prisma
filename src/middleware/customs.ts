@@ -9,7 +9,6 @@ export const customHeaders = (project: string) => {
     return (_req: Request, res: Response, next: NextFunction) => {
         log(`Setting custom header for project: ${project}`);
         res.setHeader('X-Project', project);
-        next();
-        return;
+        return next();
     };
 };
