@@ -39,4 +39,10 @@ describe('<Films> routes', () => {
 
         expect(res.status).toBe(404);
     });
+
+    test('[POST] /api/films', async () => {
+        const res = await request(app).post(urlBase).send({});
+
+        expect(res.status).toBe(201);
+    });
 });
