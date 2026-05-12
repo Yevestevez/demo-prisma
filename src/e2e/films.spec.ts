@@ -20,10 +20,23 @@ describe('<Films> routes', () => {
     });
 
     test('[GET] /api/films', async () => {
-        await request(app).get(urlBase).expect(200);
+        const res = await request(app).get(urlBase);
+
+        expect(res.status).toBe(200);
+        expect(res.body).toBeInstanceOf(Array);
+        expect(res.body.length).toBe(3);
     });
 
     test('[GET] /api/films/1', async () => {
-        await request(app).get(`${urlBase}/1`).expect(200);
+        const res = await request(app).get(`${urlBase}/1`);
+
+        expect(res.status).toBe(200);
+        expect(res.body.id).toBe(1);
+    });
+
+    test('[GET] /api/films/999', async () => {
+        const res = await request(app).get(`${urlBase}/999`);
+
+        expect(res.status).toBe(404);
     });
 });
