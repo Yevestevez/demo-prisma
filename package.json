@@ -13,7 +13,7 @@
         "seed:test": "npm run db:push:test && npm run db:seed:test",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
-        "e2e": "vitest -c vitest.config.e2e.ts"
+        "e2e": "vitest -c vitest.config.e2e.ts --maxConcurrency 1"
     },
     "repository": {
         "type": "git",
