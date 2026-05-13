@@ -3,16 +3,21 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client';
 
 import { env } from '../config/env.ts';
 import type { AppPrismaClient } from '../config/db-config.ts';
-import type {
-    LoginUserData,
-    ProfileDTO,
-    User,
-    UserUpdateDTO,
-} from '../zod/user.schemas.ts';
+// import type {
+//     LoginUserData,
+//     User,
+//     UserUpdateDTO,
+// } from '../zod/user.schemas.ts';
 import { AuthService } from '../services/auth.ts';
 import type { LoginResult, TokenPayload } from '../types/login.ts';
 import { Role } from '../../generated/prisma/enums.ts';
-import type { RegisterUserDTO } from '../schemas/users/user.dto.ts';
+import type {
+    LoginUserDTO,
+    ProfileUpdateDTO,
+    RegisterUserDTO,
+    UserUpdateDTO,
+} from '../schemas/users/user.dto.ts';
+import type { User } from '../schemas/users/user.schema.ts';
 
 const log = debug(`${env.PROJECT_NAME}:repo:users`);
 log('Loading users repo...');
@@ -45,7 +50,7 @@ export class UsersRepo {
         return registeredUser as User;
     };
 
-    login = async (userData: LoginUserData): Promise<LoginResult> => {
+    login = async (userData: LoginUserDTO): Promise<LoginResult> => {
         log(`Logging in user with email ${userData.email}`);
 
         const result = await this.#prisma.user.findUniqueOrThrow({
@@ -121,7 +126,7 @@ export class UsersRepo {
 
     updateUserProfile = async (
         id: number,
-        profileData: ProfileDTO,
+        profileData: ProfileUpdateDTO,
     ): Promise<User> => {
         log(`Updating user profile with id ${id}...`);
 
