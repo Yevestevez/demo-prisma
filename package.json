@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "Demo de backend con Express, Node, Postgres y Prisma del Curso DATW 2026",
     "main": "index.ts",
+    "packageManager": "pnpm@11.1.1",
     "scripts": {
         "start": "cross-env NODE_ENV=prod node ./src/index.ts",
         "dev": "node --watch --env-file=.env ./src/index.ts",
@@ -10,7 +11,7 @@
         "seed:dev": "prisma db seed",
         "db:push:test": "prisma db push --config prisma.test.config.ts",
         "db:seed:test": "prisma db seed --config prisma.test.config.ts",
-        "seed:test": "npm run db:push:test && npm run db:seed:test",
+        "seed:test": "pnpm run db:push:test && pnpm run db:seed:test",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
         "e2e": "vitest -c vitest.config.e2e.ts --maxConcurrency 1"

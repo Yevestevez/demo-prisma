@@ -5,17 +5,17 @@ Ejemplo de API implementada con Node.js, Express y Prisma para gestionar pelícu
 ## Instalación
 
 - Clonar el repositorio
-- Instalar dependencias con `npm install`
+- Instalar dependencias con `pnpm install`
 - Configurar variables de entorno en un archivo `.env` (puedes usar el archivo `.env.example` como plantilla)
 - Las variables de entorno incluyen la URL de conexión a la base de datos. Nos aseguramos de que la base de datos esté configurada y accesible antes de ejecutar las migraciones.
-- Generar el cliente de Prisma con `npx prisma generate`
-- Ejecutar migraciones para crear la base de datos con `npx prisma migrate dev`
-- Iniciar el servidor con `npm start` o `npm run dev` para modo desarrollo.
+- Generar el cliente de Prisma con `pnpm prisma generate`
+- Ejecutar migraciones para crear la base de datos con `pnpm prisma migrate dev`
+- Iniciar el servidor con `pnpm start` o `pnpm run dev` para modo desarrollo.
 
 Vitest:
 
 ```shell
-npm i -D vitest @vitest/coverage-v8
+pnpm add -D vitest @vitest/coverage-v8
 ```
 
 - Script para ejecutar tests:
