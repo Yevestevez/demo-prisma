@@ -4,14 +4,14 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client';
 
 import { env } from '../config/env.ts';
 import type { UsersRepo } from '../repos/users.repo.ts';
-import type {
-    LoginUserData,
-    RegisterUserData,
-    User,
-    UserUpdateDTO,
-} from '../zod/user.schemas.ts';
 import { HttpError } from '../errors/http-error.ts';
 import type { LoginResult } from '../types/login.ts';
+import type {
+    LoginUserDTO,
+    RegisterUserDTO,
+    UserUpdateDTO,
+} from '../schemas/users/user.dto.ts';
+import type { User } from '../schemas/users/user.schema.ts';
 
 const log = debug(`${env.PROJECT_NAME}:controller:users`);
 log('Starting users controller...');
@@ -27,7 +27,7 @@ export class UsersController {
         log('Registering new user...');
 
         try {
-            const userData: RegisterUserData = req.body;
+            const userData: RegisterUserDTO = req.body;
             const newUser: User = await this.#repo.register(userData);
 
             res.status(201).json(newUser);
@@ -51,7 +51,7 @@ export class UsersController {
         log('Logging User...');
 
         try {
-            const loginData: LoginUserData = req.body;
+            const loginData: LoginUserDTO = req.body;
             const loginResult: LoginResult = await this.#repo.login(loginData);
 
             return res.json(loginResult);
