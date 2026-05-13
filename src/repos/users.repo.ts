@@ -6,13 +6,13 @@ import type { AppPrismaClient } from '../config/db-config.ts';
 import type {
     LoginUserData,
     ProfileDTO,
-    RegisterUserData,
     User,
     UserUpdateDTO,
 } from '../zod/user.schemas.ts';
 import { AuthService } from '../services/auth.ts';
 import type { LoginResult, TokenPayload } from '../types/login.ts';
 import { Role } from '../../generated/prisma/enums.ts';
+import type { RegisterUserDTO } from '../schemas/users/user.dto.ts';
 
 const log = debug(`${env.PROJECT_NAME}:repo:users`);
 log('Loading users repo...');
@@ -24,7 +24,7 @@ export class UsersRepo {
         this.#prisma = prisma;
     }
 
-    register = async (userData: RegisterUserData): Promise<User> => {
+    register = async (userData: RegisterUserDTO): Promise<User> => {
         log(`Registering user with email ${userData.email}`);
 
         const hashedPassword = await AuthService.hash(userData.password);
